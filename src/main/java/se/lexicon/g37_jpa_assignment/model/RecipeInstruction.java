@@ -11,7 +11,6 @@ public class RecipeInstruction {
     @Id
     @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
     private String instructionId;
 
     @Column(nullable = false, length = 1500)

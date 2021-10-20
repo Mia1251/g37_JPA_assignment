@@ -9,16 +9,28 @@ public class RecipeCategory {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
     private int categoryId;
 
-    @Column(nullable = false, unique = true)
     private String category;
 
-    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.DETACH, CascadeType.REFRESH})
+    @ManyToMany(cascade = {CascadeType.PERSIST,
+            CascadeType.MERGE,
+            CascadeType.DETACH,
+            CascadeType.REFRESH},
+            fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "recipe_recipe_category",
+            joinColumns = @JoinColumn(name = "recipe_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_category_id"))
     private List<Recipe> recipes;
 
     public RecipeCategory() {
+
+    }
+
+    public RecipeCategory(int categoryId, String category) {
+        this.categoryId = categoryId;
+        this.category = category;
     }
 
     public RecipeCategory(String category, List<Recipe> recipes) {

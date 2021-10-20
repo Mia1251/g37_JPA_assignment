@@ -9,7 +9,6 @@ public class Recipe {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
     private int recipeId;
 
     @Column(nullable = false, unique = true)
@@ -18,26 +17,29 @@ public class Recipe {
     @OneToMany(cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
-            CascadeType.REFRESH})
-    @JoinTable(name = "recipe_ingredient",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_ingredient"))
+            CascadeType.REFRESH},
+            orphanRemoval = true, mappedBy = "recipe")
     private List<RecipeIngredient> recipeIngredients;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "recipe_instruction_id", unique = true)
+    @JoinColumn(name = "instruction_id", unique = true)
     private RecipeInstruction instruction;
 
     @ManyToMany(cascade = {CascadeType.PERSIST,
             CascadeType.MERGE,
             CascadeType.DETACH,
             CascadeType.REFRESH})
-    @JoinTable(name = "recipe_recipe_categories",
+    @JoinTable(name = "recipe_recipe_category",
             joinColumns = @JoinColumn(name = "recipe_id"),
             inverseJoinColumns = @JoinColumn(name = "recipe_category_id"))
     private List<RecipeCategory> categories;
 
     public Recipe() {
+    }
+
+    public Recipe(int recipeId, String recipeName) {
+        this.recipeId = recipeId;
+        this.recipeName = recipeName;
     }
 
     public Recipe(String recipeName, List<RecipeIngredient> recipeIngredients, RecipeInstruction instruction, List<RecipeCategory> categories) {

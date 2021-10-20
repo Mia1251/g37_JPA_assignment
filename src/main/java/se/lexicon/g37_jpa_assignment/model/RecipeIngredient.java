@@ -9,8 +9,8 @@ import java.util.Objects;
 public class RecipeIngredient {
 
     @Id
+    @GeneratedValue(generator = "UUID")
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(name = "id", updatable = false, nullable = false)
     private String recipeIngredientId;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -21,22 +21,31 @@ public class RecipeIngredient {
 
     private Measurement measurement;
 
-    @ManyToOne(cascade = {CascadeType.PERSIST,CascadeType.DETACH,CascadeType.MERGE,CascadeType.REFRESH})
+    @ManyToOne(cascade = {CascadeType.PERSIST,
+            CascadeType.DETACH,
+            CascadeType.MERGE,
+            CascadeType.REFRESH},
+    fetch = FetchType.LAZY)
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
     public RecipeIngredient() {
     }
 
-    public RecipeIngredient(Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
+    public RecipeIngredient(Recipe recipe, Ingredient ingredient ) {
+        this.recipe = recipe;
+        this.ingredient = ingredient;
+    }
+
+    public RecipeIngredient(String recipeIngredientId, Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
+        this.recipeIngredientId = recipeIngredientId;
         this.ingredient = ingredient;
         this.amount = amount;
         this.measurement = measurement;
         this.recipe = recipe;
     }
 
-    public RecipeIngredient(String recipeIngredientId, Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
-        this.recipeIngredientId = recipeIngredientId;
+    public RecipeIngredient(Ingredient ingredient, double amount, Measurement measurement, Recipe recipe) {
         this.ingredient = ingredient;
         this.amount = amount;
         this.measurement = measurement;
@@ -88,12 +97,12 @@ public class RecipeIngredient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         RecipeIngredient that = (RecipeIngredient) o;
-        return Double.compare(that.amount, amount) == 0 && Objects.equals(ingredient, that.ingredient) && measurement == that.measurement && Objects.equals(recipe, that.recipe);
+        return Objects.equals(ingredient, that.ingredient) && Objects.equals(recipe, that.recipe);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ingredient, amount, measurement, recipe);
+        return Objects.hash(ingredient, recipe);
     }
 
     @Override
@@ -103,7 +112,6 @@ public class RecipeIngredient {
                 ", ingredient=" + ingredient +
                 ", amount=" + amount +
                 ", measurement=" + measurement +
-                ", recipe=" + recipe +
                 '}';
     }
 }

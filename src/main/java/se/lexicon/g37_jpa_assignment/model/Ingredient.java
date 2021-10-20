@@ -8,10 +8,9 @@ public class Ingredient {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false, unique = true)
     private int ingredientId;
 
-    @Column(nullable = false, unique = true)
+    @Column(unique = true)
     private String ingredientName;
 
     public Ingredient() {
