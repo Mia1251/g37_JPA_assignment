@@ -14,27 +14,35 @@ import static org.junit.jupiter.api.Assertions.*;
 
 class RecipeTest {
 
+    @Autowired
     private Recipe testObject;
 
     @BeforeEach
     void setUp() {
+        testObject = new Recipe(1,"Ugnsbakad kronärtskocka");
     }
 
     @Test
     @DisplayName("Test1: Create Recipe")
     public void test_create() {
-        System.out.println("Test1 was successful!");
+        Assertions.assertEquals(1, testObject.getRecipeId());
+        Assertions.assertEquals("Ugnsbakad kronärtskocka", testObject.getRecipeName());
+        System.out.println("Creating a Recipe was successful!");
     }
 
     @Test
     @DisplayName("Test2: Equals")
     public void test_equal() {
-        System.out.println("Test2 was successful!");
+        Recipe expected = new Recipe(1,"Ugnsbakad kronärtskocka");
+        Assertions.assertTrue(testObject.equals(expected));
+        System.out.println("Testing Equals was successful!");
     }
 
     @Test
     @DisplayName("Test3: HashCode")
     public void test_hashCode() {
-        System.out.println("Test3 was successful!");
+        Recipe expected = new Recipe(1, "Ugnsbakad kronärtskocka");
+        Assertions.assertEquals(expected.hashCode(), testObject.hashCode());
+        System.out.println("Testing HashCode was successful!");
     }
 }

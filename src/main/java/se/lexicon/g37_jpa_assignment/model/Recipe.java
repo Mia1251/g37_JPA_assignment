@@ -37,6 +37,10 @@ public class Recipe {
     public Recipe() {
     }
 
+    public Recipe(String recipeName) {
+        this.recipeName = recipeName;
+    }
+
     public Recipe(int recipeId, String recipeName) {
         this.recipeId = recipeId;
         this.recipeName = recipeName;

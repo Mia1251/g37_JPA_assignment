@@ -20,8 +20,8 @@ public class RecipeCategory {
             fetch = FetchType.LAZY)
     @JoinTable(
             name = "recipe_recipe_category",
-            joinColumns = @JoinColumn(name = "recipe_id"),
-            inverseJoinColumns = @JoinColumn(name = "recipe_category_id"))
+            joinColumns = @JoinColumn(name = "recipe_category_id"),
+            inverseJoinColumns = @JoinColumn(name = "recipe_id"))
     private List<Recipe> recipes;
 
     public RecipeCategory() {

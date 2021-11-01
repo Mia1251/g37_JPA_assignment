@@ -46,12 +46,12 @@ public class Ingredient {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Ingredient that = (Ingredient) o;
-        return Objects.equals(ingredientName, that.ingredientName);
+        return ingredientId == that.ingredientId && Objects.equals(ingredientName, that.ingredientName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(ingredientName);
+        return Objects.hash(ingredientId, ingredientName);
     }
 
     @Override

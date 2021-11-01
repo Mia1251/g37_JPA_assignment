@@ -4,32 +4,39 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-
-import static org.junit.jupiter.api.Assertions.*;
+import org.springframework.beans.factory.annotation.Autowired;
 
 class RecipeCategoryTest {
 
+    @Autowired
     private RecipeCategory testObject;
 
     @BeforeEach
     void setUp() {
+        testObject = new RecipeCategory(0,"Bakverk");
     }
 
     @Test
     @DisplayName("Test1: Create RecipeCategory")
     public void test_create() {
-        System.out.println("Test1 was successful!");
+        Assertions.assertEquals(0, testObject.getCategoryId());
+        Assertions.assertEquals("Bakverk", testObject.getCategory());
+        System.out.println("Creating a category was successful!");
     }
 
     @Test
     @DisplayName("Test2: Equals")
     public void test_equal() {
-        System.out.println("Test2 was successful!");
+        RecipeCategory expected = new RecipeCategory(1,"Bakverk");
+        Assertions.assertTrue(testObject.equals(expected));
+        System.out.println("Testing Equals was successful!");
     }
 
     @Test
     @DisplayName("Test3: HashCode")
     public void test_hashCode() {
-        System.out.println("Test3 was successful!");
+        RecipeCategory expected = new RecipeCategory(1,"Bakverk");
+        Assertions.assertEquals(expected.hashCode(), testObject.hashCode());
+        System.out.println("Testing HashCode was successful!");
     }
 }
